@@ -1,6 +1,6 @@
 # shopping-list
 #TODOs
-- [ ] Add items to list via form
+- [x] Add items to list via form
 - [ ] Remove items from list  by clicking "X" button
 - [ ] Clear all items with "clear" button
 - [ ] Filter the items by typing in the filter field
