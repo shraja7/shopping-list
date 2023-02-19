@@ -2,6 +2,8 @@ const itemForm = document.getElementById('item-form');
 const itemInput = document.getElementById('item-input');
 const itemList = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
+const itemFilter = document.getElementById('filter')
+
 
 const addItem = (e) => { 
     e.preventDefault();
@@ -18,7 +20,10 @@ const addItem = (e) => {
 
     const button = createButton('remove-item btn-link text-red')
     li.appendChild(button);
+
+//add li to dom
     itemList.appendChild(li);
+    checkUI()
     itemInput.value = '';
 }
 
@@ -41,7 +46,11 @@ const removeItem = (e) => {
     //use event delegation to target the x mark and delete parent button element
    if(e.target.parentElement.classList.contains('remove-item')) {
     //x marks parent element is the button, and the buttons parent element is the li so have to use parentElement twice
-       e.target.parentElement.parentElement.remove();
+      //check to make sure user wants to delete item
+      if(confirm('Are you sure? ')){
+        e.target.parentElement.parentElement.remove();
+        checkUI()
+      }
    }
  }
 const clearItems = (second) => { 
@@ -49,11 +58,25 @@ const clearItems = (second) => {
     while(itemList.firstChild) {
         itemList.removeChild(itemList.firstChild);
     }
+    checkUI()
  }
+
+ const checkUI = () => { 
+    const items = itemList.querySelectorAll('li')
+    if(items.length === 0){
+        clearBtn.style.display = 'none'
+        itemFilter.style.display = 'none'
+    }
+    //if tehre is an item then they shoudl be showing
+    else{
+        clearBtn.style.display = 'block'
+        itemFilter.style.display = 'block'
+    }
+  }
 
 //event listeners
 itemForm.addEventListener('submit', addItem);
 itemList.addEventListener('click', removeItem);
 clearBtn.addEventListener('click', clearItems)
 
-
+checkUI()
