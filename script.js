@@ -36,7 +36,16 @@ const createButton = (classes) => {
     return icon;
   }
 
+const removeItem = (e) => { 
+    //use event delegation to target the x mark and delete parent button element
+   if(e.target.parentElement.classList.contains('remove-item')) {
+    //x marks parent element is the button, and the buttons parent element is the li so have to use parentElement twice
+       e.target.parentElement.parentElement.remove();
+   }
+ }
+
 
 //event listeners
 itemForm.addEventListener('submit', addItem);
+itemList.addEventListener('click', removeItem);
 

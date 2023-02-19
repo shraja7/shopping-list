@@ -1,7 +1,7 @@
 # shopping-list
 #TODOs
 - [x] Add items to list via form
-- [ ] Remove items from list  by clicking "X" button
+- [x] Remove items from list  by clicking "X" button
 - [ ] Clear all items with "clear" button
 - [ ] Filter the items by typing in the filter field
 - [ ] add localStorage to persist items
