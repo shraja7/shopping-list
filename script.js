@@ -3,6 +3,9 @@ const itemInput = document.getElementById('item-input');
 const itemList = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
 const itemFilter = document.getElementById('filter')
+const formBtn = itemForm.querySelector('button')
+let isEditMode = false
+
 
 
 const displayItems = () => { 
@@ -20,6 +23,16 @@ const onAddItemSubmit = (e) => {
         alert('Please add an item to the list');
         return;
     }
+
+    //check for edit mode
+    if(isEditMode){
+        const itemToEdit = itemList.querySelector('.edit-mode')
+        removeItemFromStorage(itemToEdit.textContent)
+        itemToEdit.classList.remove('edit-mode')
+        itemToEdit.remove()
+        isEditMode = false
+    }
+
     //create item DOM element
    addItemToDom(newItem)
 
@@ -82,9 +95,21 @@ return itemsFromStorage
 const onClickItem = (e) => { 
     if(e.target.parentElement.classList.contains('remove-item')) {
         removeItem(e.target.parentElement.parentElement)
+    }else{
+       setItemToEdit(e.target)
     }
  }
 
+ const setItemToEdit = (item) => { 
+    isEditMode = true;
+    itemList.querySelectorAll('li').forEach(i => i.classList.remove('edit-mode'))
+    //make the text lighter for the item wanting to edit
+    item.classList.add('edit-mode')
+
+    formBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Update Item';
+    formBtn.style.backgroundColor = '#228B22'
+    itemInput.value = item.textContent
+  }
 const removeItem = (item) => { 
     console.log(item);
     if(confirm(`Remove ${item.textContent} from the list? `)){
@@ -133,6 +158,8 @@ const clearItems = (second) => {
   }
 
  const checkUI = () => { 
+    //clear input
+    itemInput.value = ''
     const items = itemList.querySelectorAll('li')
     if(items.length === 0){
         clearBtn.style.display = 'none'
@@ -143,6 +170,9 @@ const clearItems = (second) => {
         clearBtn.style.display = 'block'
         itemFilter.style.display = 'block'
     }
+    formBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add item';
+    formBtn.style.backgroundColor = '#333'
+    isEditMode = false
   }
 
 
