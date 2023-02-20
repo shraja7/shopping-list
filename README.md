@@ -5,7 +5,7 @@
 - [x] Clear all items with "clear" button
 - [x] Filter the items by typing in the filter field
 - [x] add localStorage to persist items
-- [ ] Click on an item to put into "edit" mode and add to form
-- [ ] Update an item in the list
-- [ ] Deploy to github pages
-- [ ] Deploy to netlify
+- [x] Click on an item to put into "edit" mode and add to form
+- [x] Update an item in the list
+- [] Deploy to github pages
+- [x] Deploy to netlify
