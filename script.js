@@ -32,6 +32,12 @@ const onAddItemSubmit = (e) => {
         itemToEdit.remove()
         isEditMode = false
     }
+    else{
+        if(checkIfItemExists(newItem)){
+            alert('Item already exists! ')
+            return;
+        }
+    }
 
     //create item DOM element
    addItemToDom(newItem)
@@ -99,6 +105,11 @@ const onClickItem = (e) => {
        setItemToEdit(e.target)
     }
  }
+
+ const checkIfItemExists = (item) => { 
+    const itemsFromStorage = getItemsFromStorage()
+    return itemsFromStorage.includes(item)
+  }
 
  const setItemToEdit = (item) => { 
     isEditMode = true;
