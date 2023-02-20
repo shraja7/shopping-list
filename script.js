@@ -5,7 +5,13 @@ const clearBtn = document.getElementById('clear');
 const itemFilter = document.getElementById('filter')
 
 
-const addItem = (e) => { 
+const displayItems = () => { 
+    const itemsFromStorage = getItemsFromStorage()
+    itemsFromStorage.forEach(item => addItemToDom(item))
+
+ }
+
+const onAddItemSubmit = (e) => { 
     e.preventDefault();
     const newItem = itemInput.value
 
@@ -14,18 +20,26 @@ const addItem = (e) => {
         alert('Please add an item to the list');
         return;
     }
-    //create list item
+    //create item DOM element
+   addItemToDom(newItem)
+
+   //add item to local storage
+   addIteToStorage(newItem)
+    checkUI()
+    itemInput.value = '';
+}
+const addItemToDom = (item) => { 
     const li =document.createElement('li');
-    li.appendChild(document.createTextNode(newItem));
+    li.appendChild(document.createTextNode(item));
 
     const button = createButton('remove-item btn-link text-red')
     li.appendChild(button);
 
 //add li to dom
     itemList.appendChild(li);
-    checkUI()
-    itemInput.value = '';
-}
+ }
+
+
 
 const createButton = (classes) => { 
     const button = document.createElement('button');
@@ -41,6 +55,31 @@ const createButton = (classes) => {
     icon.className = classes;
     return icon;
   }
+
+  const addIteToStorage = (item) => { 
+    //check if items already in local storage
+    const  itemsFromStorage = getItemsFromStorage()
+
+ 
+//add new item to array
+    itemsFromStorage.push(item)
+
+    //convert to JSON string and set to local storage
+    localStorage.setItem('items', JSON.stringify(itemsFromStorage))
+  }
+
+  const getItemsFromStorage = () => { 
+    let itemsFromStorage;
+    if(localStorage.getItem('items')=== null){
+        itemsFromStorage = []
+    }else{
+        //this returns a string, so parse w JSON 
+        itemsFromStorage = JSON.parse(localStorage.getItem('items'))
+    }
+return itemsFromStorage
+   }
+
+
 
 const removeItem = (e) => { 
     //use event delegation to target the x mark and delete parent button element
@@ -82,7 +121,7 @@ const clearItems = (second) => {
         clearBtn.style.display = 'none'
         itemFilter.style.display = 'none'
     }
-    //if tehre is an item then they shoudl be showing
+    //if there is an item then they shoudl be showing
     else{
         clearBtn.style.display = 'block'
         itemFilter.style.display = 'block'
@@ -90,9 +129,10 @@ const clearItems = (second) => {
   }
 
 //event listeners
-itemForm.addEventListener('submit', addItem);
+itemForm.addEventListener('submit', onAddItemSubmit);
 itemList.addEventListener('click', removeItem);
 clearBtn.addEventListener('click', clearItems)
 itemFilter.addEventListener('input', filterItems)
+document.addEventListener('DOMContentLoaded', displayItems)
 
 checkUI()
