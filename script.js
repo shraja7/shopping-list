@@ -112,6 +112,8 @@ const clearItems = (second) => {
     while(itemList.firstChild) {
         itemList.removeChild(itemList.firstChild);
     }
+    //clear items from local storage
+    localStorage.removeItem('items')
     checkUI()
  }
  const filterItems = (e) => { 
